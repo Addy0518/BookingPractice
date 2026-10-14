@@ -23,11 +23,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DiningTable]",
+         "Name": "[dbo].[BookingLog]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Guest]",
+         "Name": "[dbo].[DiningTable]",
          "ObjectType": 0
       }
    ],

@@ -9,7 +9,9 @@ public partial class Booking
 {
     public int BookingId { get; set; }
 
-    public int GuestId { get; set; }
+    public string UserName { get; set; }
+
+    public string UserPhone { get; set; }
 
     public int DiningTableId { get; set; }
 
@@ -25,9 +27,12 @@ public partial class Booking
 
     public string Note { get; set; }
 
+    /// <summary>
+    /// 樂觀鎖 ( 新增或修改這筆資料後 , 會改變值來表示這筆資料被修改 )
+    /// </summary>
     public byte[] RowVersion { get; set; }
 
-    public virtual DiningTable DiningTable { get; set; }
+    public virtual ICollection<BookingLog> BookingLogs { get; set; } = new List<BookingLog>();
 
-    public virtual Guest Guest { get; set; }
+    public virtual DiningTable DiningTable { get; set; }
 }

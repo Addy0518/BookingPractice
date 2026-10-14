@@ -236,9 +236,6 @@ try
         app.UseHttpsRedirection();
     }
 
-    // 瀏覽靜態檔案
-    app.UseStaticFiles();
-
     // 設定 Cross-Origin-Opener-Policy 標頭，允許同源的彈出視窗 ( 讓 Google 登入進來 )
     app.Use(
         async (context, next) =>

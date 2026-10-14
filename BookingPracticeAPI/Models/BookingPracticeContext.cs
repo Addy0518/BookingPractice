@@ -15,9 +15,9 @@ public partial class BookingPracticeContext : DbContext
 
     public virtual DbSet<Booking> Bookings { get; set; }
 
-    public virtual DbSet<DiningTable> DiningTables { get; set; }
+    public virtual DbSet<BookingLog> BookingLogs { get; set; }
 
-    public virtual DbSet<Guest> Guests { get; set; }
+    public virtual DbSet<DiningTable> DiningTables { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -32,18 +32,32 @@ public partial class BookingPracticeContext : DbContext
             entity.Property(e => e.RowVersion)
                 .IsRequired()
                 .IsRowVersion()
-                .IsConcurrencyToken();
+                .IsConcurrencyToken()
+                .HasComment("樂觀鎖 ( 新增或修改這筆資料後 , 會改變值來表示這筆資料被修改 )");
             entity.Property(e => e.UpdateTime).HasColumnType("datetime");
+            entity.Property(e => e.UserName)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.UserPhone)
+                .IsRequired()
+                .HasMaxLength(200);
 
             entity.HasOne(d => d.DiningTable).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.DiningTableId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Booking_DiningTable");
+        });
 
-            entity.HasOne(d => d.Guest).WithMany(p => p.Bookings)
-                .HasForeignKey(d => d.GuestId)
+        modelBuilder.Entity<BookingLog>(entity =>
+        {
+            entity.HasKey(e => e.BookingLogId).HasName("PK__BookingL__D6D56B323C106E1A");
+
+            entity.ToTable("BookingLog");
+
+            entity.HasOne(d => d.Booking).WithMany(p => p.BookingLogs)
+                .HasForeignKey(d => d.BookingId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Booking_Guest");
+                .HasConstraintName("FK__BookingLo__Booki__6E01572D");
         });
 
         modelBuilder.Entity<DiningTable>(entity =>
@@ -52,22 +66,10 @@ public partial class BookingPracticeContext : DbContext
 
             entity.ToTable("DiningTable");
 
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true)
+                .HasAnnotation("Relational:DefaultConstraintName", "DF__DiningTab__IsAct__534D60F1");
             entity.Property(e => e.TableName)
-                .IsRequired()
-                .HasMaxLength(200);
-        });
-
-        modelBuilder.Entity<Guest>(entity =>
-        {
-            entity.HasKey(e => e.GuestId).HasName("PK__Guest__0C423C126E56F0CD");
-
-            entity.ToTable("Guest");
-
-            entity.Property(e => e.Name)
-                .IsRequired()
-                .HasMaxLength(200);
-            entity.Property(e => e.PhoneNumber)
                 .IsRequired()
                 .HasMaxLength(200);
         });

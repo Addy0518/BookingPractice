@@ -8,7 +8,6 @@ public class TokenHelper(IConfiguration _configuration)
     /// <param name="userId">使用者的 Id</param>
     /// <param name="userName">使用者的名稱</param>
     /// <param name="userRole">使用者的角色</param>
-    /// <param name="userAddress">使用者的地址</param>
     /// <param name="expireMinutes">Token 過期時間（分鐘）</param>
     /// <returns>生成的 JWT Token 字串</returns>
     public string GeneratedToken(int userId, string userName, string? userRole, int expireMinutes = 30)
