@@ -69,9 +69,20 @@ public class DiningTableService(BookingPracticeContext context) : IDiningTableSe
             Capacity = registerRequest.Capacity,
             IsActive = registerRequest.IsActive,
         };
+        try
+        {
+            await context.DiningTables.AddAsync(diningTable);
+            await context.SaveChangesAsync();
+        }
+        // DbUpdateException : 資料庫異常
+        catch (DbUpdateException ex)
+            // 當異常例外是 SqlException ( 資料庫的問題 ) 且錯誤號碼是 2601 或 2627 時，表示違反了唯一性約束 ，代表有人嘗試插入重複的資料 , 就擋下來並報錯誤
+            when (ex.InnerException is SqlException s && (s.Number == 2601 || s.Number == 2627))
+        {
+            var errors = new Dictionary<string, string[]> { { "BookingTime", new[] { "此時段已被預約！" } } };
+            return ApiResponseHelper.RequestError<DiningTableResponse>(errors);
+        }
 
-        await context.DiningTables.AddAsync(diningTable);
-        await context.SaveChangesAsync();
         var response = new DiningTableResponse
         {
             DiningTableId = diningTable.DiningTableId,
@@ -115,6 +126,7 @@ public class DiningTableService(BookingPracticeContext context) : IDiningTableSe
 
         diningTable.IsActive = false;
         await context.SaveChangesAsync();
+
         return ApiResponseHelper.Success(true);
     }
 }
