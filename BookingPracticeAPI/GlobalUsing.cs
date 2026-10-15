@@ -16,7 +16,6 @@ global using BookingPractice.API.Common.Extensions;
 global using BookingPractice.API.Common.Helpers;
 global using BookingPractice.API.Common.Requests;
 global using BookingPractice.API.Extensions;
-global using BookingPractice.API.Helpers;
 global using BookingPractice.API.Infrastructures.Data;
 global using BookingPractice.API.Infrastructures.DiConfig;
 global using BookingPractice.API.Infrastructures.ExceptionHandler;

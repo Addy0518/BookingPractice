@@ -37,3 +37,12 @@ export const codeStatusEnum = Object.freeze({
   // 內部伺服器錯誤
   InternalException: 5000,
 })
+
+// 預訂狀態
+export const bookingStatusEnum = Object.freeze({
+
+  預約成功: 1,
+  預約失敗: 2,
+  取消訂位: 3,
+
+})

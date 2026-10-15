@@ -55,4 +55,16 @@ public class DiningTableController(IDiningTableService diningTableService) : Con
     {
         return Ok(await diningTableService.CancelDiningTable(diningTableId));
     }
+
+    /// <summary>
+    /// 啟用預約桌
+    /// </summary>
+    /// <param name="diningTableId">桌位 ID</param>
+    /// <returns>是否成功啟用</returns>
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponse<bool>))]
+    public async Task<IActionResult> EnableDiningTable([FromQuery] int diningTableId)
+    {
+        return Ok(await diningTableService.EnableDiningTable(diningTableId));
+    }
 }

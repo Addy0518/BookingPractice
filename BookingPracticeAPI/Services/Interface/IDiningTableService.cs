@@ -30,4 +30,11 @@ public interface IDiningTableService
     /// <param name="diningTableId">桌位 ID</param>
     /// <returns>是否成功停用</returns>
     Task<ApiResponse<bool>> CancelDiningTable(int diningTableId);
+
+    /// <summary>
+    /// 啟用預約桌
+    /// </summary>
+    /// <param name="diningTableId">桌位 ID</param>
+    /// <returns>是否成功啟用</returns>
+    Task<ApiResponse<bool>> EnableDiningTable(int diningTableId);
 }

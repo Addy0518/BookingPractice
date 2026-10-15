@@ -129,4 +129,25 @@ public class DiningTableService(BookingPracticeContext context) : IDiningTableSe
 
         return ApiResponseHelper.Success(true);
     }
+
+    /// <summary>
+    /// 啟用預約桌
+    /// </summary>
+    /// <param name="diningTableId">桌位 ID</param>
+    /// <returns>是否成功啟用</returns>
+    public async Task<ApiResponse<bool>> EnableDiningTable(int diningTableId)
+    {
+        // 檢查桌位是否存在
+        var diningTable = await context.DiningTables.FindAsync(diningTableId);
+        if (diningTable == null)
+        {
+            var errors = new Dictionary<string, string[]> { { "DiningTableId", new[] { "此桌位不存在！" } } };
+            return ApiResponseHelper.RequestError<bool>(errors);
+        }
+
+        diningTable.IsActive = true;
+        await context.SaveChangesAsync();
+
+        return ApiResponseHelper.Success(true);
+    }
 }

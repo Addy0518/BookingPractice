@@ -1,4 +1,4 @@
-namespace BookingPractice.API.Helpers;
+namespace BookingPractice.API.Common.Helpers;
 
 public static class ApiResponseHelper
 {

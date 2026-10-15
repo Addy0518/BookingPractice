@@ -8,16 +8,31 @@
 // biome-ignore lint: disable
 export {}
 declare global {
+  const BookingStatusEnum: typeof import('./common/enum.js').BookingStatusEnum
+  const CancelBooking: typeof import('./api/bookingService.js').CancelBooking
+  const CancelDiningTable: typeof import('./api/diningTableService.js').CancelDiningTable
+  const CreateBooking: typeof import('./api/bookingService.js').CreateBooking
+  const CreateDiningTable: typeof import('./api/diningTableService.js').CreateDiningTable
   const EffectScope: typeof import('vue').EffectScope
-  const GetGameRecordInfo: typeof import('./api/userService.js').GetGameRecordInfo
-  const GetRecordDetailsInfo: typeof import('./api/userService.js').GetRecordDetailsInfo
+  const EnableDiningTable: typeof import('./api/diningTableService.js').EnableDiningTable
+  const GetAvailableBookings: typeof import('./api/bookingService.js').GetAvailableBookings
+  const GetBooking: typeof import('./api/bookingService.js').GetBooking
+  const GetDiningTable: typeof import('./api/diningTableService.js').GetDiningTable
+  const GetDiningTables: typeof import('./api/diningTableService.js').GetDiningTables
+  const GetGameRecordInfo: typeof import('./api/bookingService.js').GetGameRecordInfo
+  const GetRecordDetailsInfo: typeof import('./api/bookingService.js').GetRecordDetailsInfo
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
   const accountInstance: typeof import('./api/accountInstance.js').default
   const actions: typeof import('./stores/gameResult.js').actions
+  const bookingStatusEnum: typeof import('./common/enum.js').bookingStatusEnum
+  const cancelBooking: typeof import('./api/bookingService.js').cancelBooking
+  const cancelDiningTable: typeof import('./api/diningTableService.js').cancelDiningTable
   const codeStatusEnum: typeof import('./common/enum.js').codeStatusEnum
   const computed: typeof import('vue').computed
   const couponTypeEnum: typeof import('./common/enum.js').couponTypeEnum
   const createApp: typeof import('vue').createApp
+  const createBooking: typeof import('./api/bookingService.js').createBooking
+  const createDiningTable: typeof import('./api/diningTableService.js').createDiningTable
   const createPinia: typeof import('pinia').createPinia
   const createRoomAPI: typeof import('./api/roomService.js').createRoomAPI
   const customRef: typeof import('vue').customRef
@@ -25,6 +40,7 @@ declare global {
   const defineComponent: typeof import('vue').defineComponent
   const defineStore: typeof import('pinia').defineStore
   const effectScope: typeof import('vue').effectScope
+  const enableDiningTable: typeof import('./api/diningTableService.js').enableDiningTable
   const formatDateForZeroHour: typeof import('./common/formats.js').formatDateForZeroHour
   const formatDateOnly: typeof import('./common/formats.js').formatDateOnly
   const formatDateString: typeof import('./common/formats.js').formatDateString
@@ -35,21 +51,26 @@ declare global {
   const formatUTC8Date: typeof import('./common/formats.js').formatUTC8Date
   const genderEnum: typeof import('./common/enum.js').genderEnum
   const getActivePinia: typeof import('pinia').getActivePinia
+  const getAvailableBookings: typeof import('./api/bookingService.js').getAvailableBookings
   const getAvatarEmoji: typeof import('./common/avatar.js').getAvatarEmoji
+  const getBooking: typeof import('./api/bookingService.js').getBooking
+  const getBookings: typeof import('./api/bookingService.js').getBookings
   const getConnection: typeof import('./common/signalrConnection.js').getConnection
   const getCurrentInstance: typeof import('vue').getCurrentInstance
   const getCurrentScope: typeof import('vue').getCurrentScope
   const getCurrentWatcher: typeof import('vue').getCurrentWatcher
+  const getDiningTable: typeof import('./api/diningTableService.js').getDiningTable
+  const getDiningTables: typeof import('./api/diningTableService.js').getDiningTables
   const getEnumDescription: typeof import('./common/enum.js').getEnumDescription
   const getError400Message: typeof import('./common/method.js').getError400Message
   const getFirstDayOfMonth: typeof import('./common/formats.js').getFirstDayOfMonth
-  const getGameRecordInfo: typeof import('./api/userService.js').getGameRecordInfo
-  const getGameRecordInfoAPI: typeof import('./api/userService.js').getGameRecordInfoAPI
-  const getRecordDetailsInfo: typeof import('./api/userService.js').getRecordDetailsInfo
-  const getRecordDetailsInfoAPI: typeof import('./api/userService.js').getRecordDetailsInfoAPI
+  const getGameRecordInfo: typeof import('./api/bookingService.js').getGameRecordInfo
+  const getGameRecordInfoAPI: typeof import('./api/bookingService.js').getGameRecordInfoAPI
+  const getRecordDetailsInfo: typeof import('./api/bookingService.js').getRecordDetailsInfo
+  const getRecordDetailsInfoAPI: typeof import('./api/bookingService.js').getRecordDetailsInfoAPI
   const getRoomInfoAPI: typeof import('./api/roomService.js').getRoomInfoAPI
   const getToast: typeof import('./common/toast.js').getToast
-  const guestLoginAPI: typeof import('./api/userService.js').guestLoginAPI
+  const guestLoginAPI: typeof import('./api/bookingService.js').guestLoginAPI
   const h: typeof import('vue').h
   const httpCodeStatusEnum: typeof import('./common/enum.js').httpCodeStatusEnum
   const inject: typeof import('vue').inject
@@ -61,7 +82,7 @@ declare global {
   const isShallow: typeof import('vue').isShallow
   const joinRoomAPI: typeof import('./api/roomService.js').joinRoomAPI
   const leaveRoomAPI: typeof import('./api/roomService.js').leaveRoomAPI
-  const loginAPI: typeof import('./api/userService.js').loginAPI
+  const loginAPI: typeof import('./api/bookingService.js').loginAPI
   const logisticsEnum: typeof import('./common/enum.js').logisticsEnum
   const mapActions: typeof import('pinia').mapActions
   const mapGetters: typeof import('pinia').mapGetters
@@ -93,7 +114,7 @@ declare global {
   const reactive: typeof import('vue').reactive
   const readonly: typeof import('vue').readonly
   const ref: typeof import('vue').ref
-  const registerAPI: typeof import('./api/userService.js').registerAPI
+  const registerAPI: typeof import('./api/bookingService.js').registerAPI
   const registerReconnectHandler: typeof import('./common/signalrConnection.js').registerReconnectHandler
   const required: typeof import('./validator/validators.js').required
   const resolveComponent: typeof import('vue').resolveComponent
@@ -157,15 +178,21 @@ declare module 'vue' {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly accountInstance: UnwrapRef<typeof import('./api/accountInstance.js')['default']>
+    readonly bookingStatusEnum: UnwrapRef<typeof import('./common/enum.js')['bookingStatusEnum']>
+    readonly cancelBooking: UnwrapRef<typeof import('./api/bookingService.js')['cancelBooking']>
+    readonly cancelDiningTable: UnwrapRef<typeof import('./api/diningTableService.js')['cancelDiningTable']>
     readonly codeStatusEnum: UnwrapRef<typeof import('./common/enum.js')['codeStatusEnum']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
+    readonly createBooking: UnwrapRef<typeof import('./api/bookingService.js')['createBooking']>
+    readonly createDiningTable: UnwrapRef<typeof import('./api/diningTableService.js')['createDiningTable']>
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
+    readonly enableDiningTable: UnwrapRef<typeof import('./api/diningTableService.js')['enableDiningTable']>
     readonly formatDateForZeroHour: UnwrapRef<typeof import('./common/formats.js')['formatDateForZeroHour']>
     readonly formatDateOnly: UnwrapRef<typeof import('./common/formats.js')['formatDateOnly']>
     readonly formatDateString: UnwrapRef<typeof import('./common/formats.js')['formatDateString']>
@@ -173,9 +200,14 @@ declare module 'vue' {
     readonly formatTWDate: UnwrapRef<typeof import('./common/formats.js')['formatTWDate']>
     readonly formatUTC8Date: UnwrapRef<typeof import('./common/formats.js')['formatUTC8Date']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
+    readonly getAvailableBookings: UnwrapRef<typeof import('./api/bookingService.js')['getAvailableBookings']>
+    readonly getBooking: UnwrapRef<typeof import('./api/bookingService.js')['getBooking']>
+    readonly getBookings: UnwrapRef<typeof import('./api/bookingService.js')['getBookings']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getCurrentWatcher: UnwrapRef<typeof import('vue')['getCurrentWatcher']>
+    readonly getDiningTable: UnwrapRef<typeof import('./api/diningTableService.js')['getDiningTable']>
+    readonly getDiningTables: UnwrapRef<typeof import('./api/diningTableService.js')['getDiningTables']>
     readonly getEnumDescription: UnwrapRef<typeof import('./common/enum.js')['getEnumDescription']>
     readonly getError400Message: UnwrapRef<typeof import('./common/method.js')['getError400Message']>
     readonly getFirstDayOfMonth: UnwrapRef<typeof import('./common/formats.js')['getFirstDayOfMonth']>
@@ -217,7 +249,6 @@ declare module 'vue' {
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
     readonly readonly: UnwrapRef<typeof import('vue')['readonly']>
     readonly ref: UnwrapRef<typeof import('vue')['ref']>
-    readonly registerAPI: UnwrapRef<typeof import('./api/userService.js')['registerAPI']>
     readonly required: UnwrapRef<typeof import('./validator/validators.js')['required']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly sameAsPassword: UnwrapRef<typeof import('./validator/validators.js')['sameAsPassword']>

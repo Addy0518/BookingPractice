@@ -5,8 +5,6 @@ public static class DiConfig
     //管理註冊
     public static void AddDiConfig(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton<TokenHelper>();
-        services.AddSingleton<PasswordSecureHelper>();
         services.AddSingleton<DBConnecting>();
 
         //將Service結尾且生命週期相同的物件, 統一註冊

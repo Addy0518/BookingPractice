@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { useAuthStore } from '@/stores/auth'
-import router from '@/router'
 import { getToast } from '@/common/toast'
 import { httpCodeStatusEnum } from '../common/enum'
 /*
@@ -40,6 +39,27 @@ instance.interceptors.request.use(
 */
 instance.interceptors.response.use(
   function (response) {
+    const resData = response.data
+    if (resData && resData.codeStatus && resData.codeStatus !== 2000) {
+      const toast = getToast()
+
+      let errorMsg = ''
+
+      if (resData.error400) {
+        errorMsg = Object.values(resData.error400).flat().join('\n')
+      } else {
+        errorMsg = resData.message || '操作失敗'
+      }
+
+      toast.add({
+        severity: 'error',
+        summary: '操作失敗',
+        detail: errorMsg,
+        life: 5000,
+      })
+      return Promise.reject({ response: { data: resData } })
+    }
+
     return response
   },
   function (error) {
@@ -66,15 +86,12 @@ instance.interceptors.response.use(
 
       case httpCodeStatusEnum.Unauthorized:
         toast.add({ severity: 'error', summary: '登入過期', detail: '請重新登入', life: 5000 })
-        router.push({ name: 'loginView' })
         break
       case httpCodeStatusEnum.ManyRequest:
         toast.add({ severity: 'warn', summary: '請求過於頻繁', detail: '請稍後再試', life: 5000 })
-        router.push({ name: 'loginView' })
         break
       case httpCodeStatusEnum.Forbidden:
         toast.add({ severity: 'error', summary: '認證失敗', detail: '你沒有訪問權限', life: 5000 })
-        router.push({ name: 'loginView' })
         break
       case httpCodeStatusEnum.InternalServerError:
         const msg = `${data.message} | ${data.error500?.title}`
