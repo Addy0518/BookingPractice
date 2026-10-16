@@ -189,5 +189,59 @@ namespace BookingPractice.Tests.Test
             // 斷言 2 : 確認資料庫裡面有 5 筆訂位
             Assert.Equal(5, tableCount);
         }
+
+        [Fact]
+        public async Task 取消後可重新預約_可重新預約()
+        {
+            // 一樣新增一個桌位用來測試
+            var tableId = await TestHelper.CreateTable(_factory);
+            var time = TestHelper.RandomTime();
+
+            var createBooking = await _client.PostAsJsonAsync(
+                "/api/Booking/CreateBooking",
+                new
+                {
+                    userName = $"cancelUser",
+                    userPhone = "0900000000",
+                    diningTableId = tableId,
+                    people = 2,
+                    bookingTime = time,
+                    note = "",
+                }
+            );
+            Assert.True(await TestHelper.IsAPIReturnOK(createBooking));
+
+            int bookingId;
+            using (var scope = _factory.Services.CreateAsyncScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<BookingPracticeContext>();
+                bookingId = (await db.Bookings.SingleAsync(b => b.DiningTableId == tableId)).BookingId;
+            }
+
+            var cancelBooking = await _client.PutAsync($"/api/Booking/CancelBooking?bookingId={bookingId}", null);
+
+            Assert.True(await TestHelper.IsAPIReturnOK(cancelBooking));
+
+            var rebookBooking = await _client.PostAsJsonAsync(
+                "/api/Booking/CreateBooking",
+                new
+                {
+                    userName = $"rebookUser",
+                    userPhone = "0900000000",
+                    diningTableId = tableId,
+                    people = 2,
+                    bookingTime = time,
+                    note = "",
+                }
+            );
+
+            Assert.True(await TestHelper.IsAPIReturnOK(rebookBooking));
+
+            using var scope2 = _factory.Services.CreateAsyncScope();
+            var db2 = scope2.ServiceProvider.GetRequiredService<BookingPracticeContext>();
+            var cancelCount = await db2.BookingLogs.CountAsync(b => b.BookingId == bookingId);
+
+            Assert.Equal(1, cancelCount);
+        }
     }
 }
