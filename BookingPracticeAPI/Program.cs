@@ -304,3 +304,5 @@ finally
     // finally 確保無論正常結束還是例外，都會執行這行
     Serilog.Log.CloseAndFlush();
 }
+
+public partial class Program { }
